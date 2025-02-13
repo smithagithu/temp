@@ -23,12 +23,13 @@
       };
       const showtotal=()=>{
           let x=products.reduce((sum,value)=>{
-            if(cart[value.id]){
-           return sum+value.price*cart[value.id];
-            }
-            return sum;
+          //   if(cart[value.id]){
+          //  return sum+value.price*cart[value.id];
+          //   }
+          //   return sum;
+          return sum+value.price*(cart[value.id]?cart[value.id]:0);
           },0);
-          divTotal.innerHTML=`Order Value: $${x}`;
+          divTotal.innerHTML=`Order Price : $${x}`;
       }
 
       const showCart = () => {
@@ -41,6 +42,8 @@
           }
         });
         divCart.innerHTML = str;
+        let count=Object.keys(cart).length
+        items.innerHTML=count
         showtotal();
       };
       const add=(id)=>{
@@ -50,6 +53,7 @@
       }
       const sub=(id)=>{
         cart[id]-=1;
+        cart[id]<1&&delete cart[id];
         console.log(cart);
         showCart();
       }
@@ -66,6 +70,7 @@
   </head>
   <body onload="showProducts()">
     <h1>My Store</h1>
+    <h4>cart:<span id="items"></span></h4>
     <hr />
     <h3>Products</h3>
     <div id="divProducts"></div>
